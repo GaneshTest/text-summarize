@@ -11,8 +11,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-groq_api_key= os.getenv('GROQ_API_KEY')
+groq_api_key=  os.getenv('GROQ_API_KEY')
 model_groq=ChatGroq(model="llama-3.1-8b-instant",groq_api_key=groq_api_key)
+
 
 # System prompt
 system_prompt = """
