@@ -6,6 +6,7 @@ import streamlit as st
 import validators
 from langchain_groq import ChatGroq
 from langchain.messages import SystemMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate
 import os 
 from dotenv import load_dotenv
 
@@ -23,6 +24,12 @@ You will be given the full transcript or text content, and you need to summarize
 userPrompt="""
 Provide the summary of the following content
 """
+
+# Create a simple prompt
+prompt = ChatPromptTemplate.from_messages([
+    ("system", system_prompt),
+    ("user", "{input}")
+])
 
 
 # Streamlit page setup
@@ -69,18 +76,15 @@ if st.button("Summarize the content from URL or YouTube"):
                     
                 else :
                     documents= summarizeWeb(generic_url)
-                page_text=""
+                page_text= userPrompt
                 if  documents is not None:
                     for doc in documents:
                         page_text += doc.page_content + "\n"
                     if page_text.strip():
-                        messages = [
-                            SystemMessage(content=system_prompt),
-                            HumanMessage(content=page_text)
-                        ]
-                        response= model_groq.invoke(messages)
+                        chain =prompt|model_groq
+                        result = chain.invoke({"input": page_text})
                         st.success("Summary:")
-                        st.write(response.content)
+                        st.write(result.content)
                     else :
                         st.error("No text content could be extracted.")
                 else :
