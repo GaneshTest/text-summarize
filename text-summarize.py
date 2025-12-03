@@ -1,9 +1,17 @@
 from openai import OpenAI
 from langchain_community.document_loaders import WebBaseLoader
-from langchain_community.document_loaders import YoutubeLoader, UnstructuredURLLoader
+from langchain_community.document_loaders import YoutubeLoader
 import bs4
 import streamlit as st
 import validators
+from langchain_groq import ChatGroq
+from langchain.messages import SystemMessage, HumanMessage
+import os 
+from dotenv import load_dotenv
+
+load_dotenv()
+groq_api_key= os.getenv('GROQ_API_KEY')
+model_groq=ChatGroq(model="llama-3.1-8b-instant",groq_api_key=groq_api_key)
 
 # System prompt
 system_prompt = """
@@ -66,12 +74,17 @@ if st.button("Summarize the content from URL or YouTube"):
                     for doc in documents:
                         page_text += doc.page_content + "\n"
                     if page_text.strip():
-                        OLLAMA_BASE_URL = "http://localhost:11434/v1"
-                        ollama = OpenAI(base_url=OLLAMA_BASE_URL, api_key='ollama')
-                        response = ollama.chat.completions.create(model="llama3.2",  messages=[{"role":"system", "content":system_prompt}, {"role":"user", "content":userPrompt + "\n" +page_text}])
-                        response=response.choices[0].message.content
+                        #OLLAMA_BASE_URL = "http://localhost:11434/v1"
+                      #  ollama = OpenAI(base_url=OLLAMA_BASE_URL, api_key='ollama')
+                       # response = ollama.chat.completions.create(model="llama3.2",  messages=[{"role":"system", "content":system_prompt}, {"role":"user", "content":userPrompt + "\n" +page_text}])
+                        messages = [
+                            SystemMessage(content=system_prompt),
+                            HumanMessage(content=page_text)
+                        ]
+                        response= model_groq.invoke(messages)
+                       # response=response.choices[0].message.content
                         st.success("Summary:")
-                        st.write(response)
+                        st.write(response.content)
                     else :
                         st.error("No text content could be extracted.")
                 else :
