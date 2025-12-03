@@ -4,7 +4,6 @@ import bs4
 import streamlit as st
 import validators
 from langchain_groq import ChatGroq
-from langchain.messages import SystemMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 import os 
 from dotenv import load_dotenv
