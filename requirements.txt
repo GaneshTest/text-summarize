@@ -4,11 +4,8 @@ python-dotenv
 langchain_community
 pypdf
 bs4
-arxiv
 pymupdf
-wikipedia
 langchain-text-splitters
-chromadb
 sentence-transformers
 langchain-huggingface
 openai
@@ -23,7 +20,6 @@ fastapi
 uvicorn
 langserve
 sse-starlette
-bs4
 langchain-anthropic
 ddgs
 validators
