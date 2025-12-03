@@ -25,7 +25,8 @@ userPrompt="""
 Provide the summary of the following content
 """
 
-# Create a simple prompt
+
+# Create a simple prompt1
 prompt = ChatPromptTemplate.from_messages([
     ("system", system_prompt),
     ("user", "{input}")
