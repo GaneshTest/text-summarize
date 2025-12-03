@@ -1,4 +1,3 @@
-from openai import OpenAI
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.document_loaders import YoutubeLoader
 import bs4
