@@ -1,7 +1,9 @@
+---
 license: apache-2.0
-title: text summarize
+title: text summarization
 sdk: streamlit
 emoji: 📚
-colorFrom: blue
+colorFrom: red
 colorTo: yellow
-short_description: 'text summarization using GROK '
+short_description: simple text summarization
+---
